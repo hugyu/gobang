@@ -21,11 +21,14 @@ public class DrawPanel extends JPanel implements MouseListener {
 
     private boolean gameOver=false; //游戏是否结束
 
+    private int blackCount= 3;
+    private int whiteCount=3;
+
     // 构造方法
     public DrawPanel() {
         super();
         // 设置背景颜色
-        this.setBackground(Color.pink);
+        this.setBackground(Color.orange);
         // 增加鼠标监听事件
         this.addMouseListener(this);
 
@@ -265,20 +268,43 @@ public class DrawPanel extends JPanel implements MouseListener {
     // 悔棋的方法
     public void goback() {
         // 棋盘里面没有棋
-        if(chessCount==0) {
-            return;
+        if(isBalck && blackCount>0) {
+            if(chessCount==0) {
+                return;
+            }
+            //从列表中置空
+            chessList[chessCount-1]=null;
+            //总数减一
+            chessCount--;
+            if(chessCount>0) {
+                x_index=chessList[chessCount-1].getX();
+                y_index=chessList[chessCount-1].getY();
+            }
+            //颜色变回去
+            isBalck=!isBalck;
+            blackCount--;
+            this.repaint();
+        } else if(whiteCount>0 &&!isBalck) {
+            if(chessCount==0) {
+                return;
+            }
+            //从列表中置空
+            chessList[chessCount-1]=null;
+            //总数减一
+            chessCount--;
+            if(chessCount>0) {
+                x_index=chessList[chessCount-1].getX();
+                y_index=chessList[chessCount-1].getY();
+            }
+            //颜色变回去
+            isBalck=!isBalck;
+            whiteCount--;
+            this.repaint();
+        } else {
+            String msg="悔棋数量达到上限";
+            // 弹出对话框
+            JOptionPane.showMessageDialog(this,msg);
         }
-        //从列表中置空
-        chessList[chessCount-1]=null;
-        //总数减一
-        chessCount--;
-        if(chessCount>0) {
-            x_index=chessList[chessCount-1].getX();
-            y_index=chessList[chessCount-1].getY();
-        }
-        //颜色变回去
-        isBalck=!isBalck;
-        this.repaint();
     }
 
 
